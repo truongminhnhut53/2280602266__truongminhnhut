@@ -3,12 +3,18 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Hoặc 'master' tùy tên nhánh chính của bạn
+      - main  # Đảm bảo nhánh của bạn trên GitHub tên là 'main'
 
+# Thiết lập quyền hạn để GitHub Actions có thể ghi dữ liệu vào Pages
 permissions:
   contents: read
   pages: write
   id-token: write
+
+# Đảm bảo chỉ có một tiến trình deploy chạy tại một thời điểm
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -26,6 +32,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # Đường dẫn cực kỳ quan trọng: Phải khớp chính xác với thư mục trong repo của bạn
           path: './BAITAP7/public'
 
       - name: Deploy to GitHub Pages
